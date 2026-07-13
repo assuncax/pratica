@@ -8,7 +8,7 @@
   --bg-secondary: #eef2f7;
   --bg-elevated: #ffffff;
   --accent: #2563eb;
-  --accent-strong: #06b6d4;
+  --accent-strong: #00c2e8;
   --accent-rgb: 37, 99, 235;
   --text-primary: #0f172a;
   --text-secondary: #55607a;
@@ -70,6 +70,15 @@ p { color: var(--text-secondary); }
 }
 
 .icon-inline { width: 20px; height: 20px; }
+
+.grad-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-cta { display: flex; justify-content: center; margin-top: 44px; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -268,6 +277,35 @@ p { color: var(--text-secondary); }
 .section-alt { background: var(--bg-secondary); }
 .section-head { max-width: 640px; margin-bottom: 56px; }
 
+/* Decorative glow orbs behind plain sections */
+.section-alt, #portfolio {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+}
+.section-alt::before, #portfolio::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -180px; right: -160px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.16), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.section-alt::after, #portfolio::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  bottom: -160px; left: -140px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 194, 232, 0.14), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
 /* ---------- Sobre ---------- */
 #sobre {
   position: relative;
@@ -384,6 +422,25 @@ p { color: var(--text-secondary); }
 
 .card h3 { margin-bottom: 10px; }
 .card p { font-size: 0.94rem; }
+
+/* ---------- Manutenção e Montagem de PCs ---------- */
+#pcs {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.9)),
+    url('../assets/img/pc-gamer.jpg') center / cover no-repeat;
+  color: #e2e8f0;
+}
+#pcs .section-lead { color: #cbd5e1; }
+#pcs h2 { color: #fff; }
+#pcs .card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+#pcs .card h3 { color: #fff; }
+#pcs .card p { color: #cbd5e1; }
+#pcs .card-icon { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.25); }
 
 /* Portfolio cards */
 .browser-bar { display: flex; gap: 6px; margin-bottom: 20px; }
