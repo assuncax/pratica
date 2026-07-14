@@ -40,76 +40,75 @@
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Network background animation (hero + CTA canvases)
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    initNetworkCanvas('network-canvas', { nodeCount: 60, linkDistance: 140, speed: 0.25, lineRGB: '37, 99, 235', dotRGB: '6, 182, 212' });
-    initNetworkCanvas('cta-canvas', { nodeCount: 30, linkDistance: 120, speed: 0.18, lineRGB: '56, 189, 248', dotRGB: '103, 232, 249' });
-  }
+  // Teste de conexão (simulado/ilustrativo)
+  const speedBtn = document.getElementById('speed-test-btn');
+  if (speedBtn) {
+    const results = document.getElementById('speed-results');
+    const barPing = document.getElementById('bar-ping');
+    const barDownload = document.getElementById('bar-download');
+    const valPing = document.getElementById('val-ping');
+    const valDownload = document.getElementById('val-download');
+    const valSecurity = document.getElementById('val-security');
+    const message = document.getElementById('speed-message');
 
-  function initNetworkCanvas(canvasId, opts) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let width, height, nodes;
-    let running = true;
+    speedBtn.addEventListener('click', () => {
+      speedBtn.disabled = true;
+      speedBtn.textContent = 'Testando...';
+      results.hidden = false;
+      barPing.style.width = '0%';
+      barDownload.style.width = '0%';
+      valPing.textContent = '--';
+      valDownload.textContent = '--';
+      valSecurity.textContent = '--';
+      message.textContent = '';
 
-    const resize = () => {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      width = canvas.width = rect.width;
-      height = canvas.height = rect.height;
-      nodes = Array.from({ length: opts.nodeCount }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * opts.speed,
-        vy: (Math.random() - 0.5) * opts.speed,
-      }));
-    };
+      setTimeout(() => {
+        const ping = Math.round(6 + Math.random() * 34); // 6-40ms
+        valPing.textContent = `${ping} ms`;
+        barPing.style.width = `${Math.max(10, 100 - (ping / 45) * 100)}%`;
+      }, 400);
 
-    const step = () => {
-      if (!running) return;
-      ctx.clearRect(0, 0, width, height);
+      setTimeout(() => {
+        const download = Math.round(80 + Math.random() * 400); // 80-480 Mbps
+        valDownload.textContent = `${download} Mbps`;
+        barDownload.style.width = `${Math.min(100, (download / 500) * 100)}%`;
+      }, 1100);
 
-      nodes.forEach((n) => {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > width) n.vx *= -1;
-        if (n.y < 0 || n.y > height) n.vy *= -1;
-      });
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < opts.linkDistance) {
-            ctx.strokeStyle = `rgba(${opts.lineRGB}, ${0.22 * (1 - dist / opts.linkDistance)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      nodes.forEach((n) => {
-        ctx.fillStyle = `rgba(${opts.dotRGB}, 0.75)`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      requestAnimationFrame(step);
-    };
-
-    document.addEventListener('visibilitychange', () => {
-      running = !document.hidden;
-      if (running) requestAnimationFrame(step);
+      setTimeout(() => {
+        valSecurity.textContent = 'Protegido';
+        message.textContent = 'Sua conexão está segura para home office. Nenhuma porta suspeita detectada nesta simulação.';
+        speedBtn.disabled = false;
+        speedBtn.textContent = 'Testar novamente';
+      }, 1800);
     });
-
-    window.addEventListener('resize', resize, { passive: true });
-    resize();
-    requestAnimationFrame(step);
   }
+
+  // Simulador de ROI de TI (estimativa ilustrativa)
+  const roiInput = document.getElementById('roi-input');
+  if (roiInput) {
+    const roiHours = document.getElementById('roi-hours');
+    const roiProtection = document.getElementById('roi-protection');
+
+    const updateRoi = () => {
+      const computers = Math.min(500, Math.max(1, Number(roiInput.value) || 1));
+      roiHours.textContent = `${Math.round(computers * 1.8)}h`;
+      // ponytail: tiering simplificado para estimativa de marketing, não é um score real
+      roiProtection.textContent = computers <= 3 ? 'Baixo' : computers <= 15 ? 'Médio' : 'Máximo';
+    };
+
+    roiInput.addEventListener('input', updateRoi);
+    updateRoi();
+  }
+
+  // Ticker do painel de status de monitoramento
+  const statusTime = document.getElementById('status-time');
+  if (statusTime) {
+    let seconds = 0;
+    setInterval(() => {
+      seconds += 5;
+      statusTime.textContent = seconds >= 60 ? 'agora' : `há ${seconds}s`;
+      if (seconds >= 60) seconds = 0;
+    }, 5000);
+  }
+
 })();
