@@ -61,7 +61,7 @@
       .filter(Boolean);
 
     gsap.set(items, { opacity: 0, y: 32, scale: 0.97 });
-    if (icons.length) gsap.set(icons, { opacity: 0, scale: 0.5 });
+    if (icons.length) gsap.set(icons, { opacity: 0, scale: 0.5, rotate: -18 });
 
     const line = grid.querySelector('.process-line');
     if (line) gsap.set(line, { scaleX: 0 });
@@ -78,15 +78,21 @@
           duration: 0.7,
           ease: 'power3.out',
           stagger: 0.08,
+          clearProps: 'transform',
         });
         if (icons.length) {
+          // Icons "assemble" into place with a slight rotation, echoing the
+          // faceted hexagon shape, then hand transform back to CSS so the
+          // hover spin isn't fought by a leftover inline value.
           gsap.to(icons, {
             opacity: 1,
             scale: 1,
-            duration: 0.5,
+            rotate: 0,
+            duration: 0.55,
             ease: 'back.out(1.7)',
             stagger: 0.08,
             delay: 0.15,
+            clearProps: 'transform',
           });
         }
         if (line) {
