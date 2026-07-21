@@ -416,17 +416,21 @@ p { color: var(--text-secondary); }
 .process-step h3 { margin-bottom: 8px; }
 .process-step p { font-size: 0.9rem; }
 
+.process-line {
+  display: none;
+  position: absolute;
+  top: 84px;
+  left: 8%; right: 8%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border-strong), var(--border), var(--border-strong));
+  transform-origin: left center;
+  transform: scaleX(1);
+  z-index: 0;
+}
+
 @media (min-width: 900px) {
   .process-grid { grid-template-columns: repeat(5, 1fr); gap: 20px; }
-  .process-grid::before {
-    content: '';
-    position: absolute;
-    top: 84px;
-    left: 8%; right: 8%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--border-strong), var(--border), var(--border-strong));
-    z-index: 0;
-  }
+  .process-line { display: block; }
 }
 
 /* ---------- Manutenção e Montagem de PCs ---------- */
@@ -565,8 +569,11 @@ p { color: var(--text-secondary); }
 .footer-bottom p { font-size: 0.82rem; }
 
 /* ---------- Reveal on scroll ---------- */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.is-visible { opacity: 1; transform: none; }
+/* Base hidden state (also the no-JS/fallback starting point). When GSAP drives
+   the reveal it tweens these properties directly, so no CSS transition here —
+   it would fight GSAP's own easing. The fallback path below adds its own. */
+.reveal { opacity: 0; transform: translateY(24px); }
+.reveal.is-visible { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.6s ease; }
 
 /* ---------- Responsive ---------- */
 @media (min-width: 640px) {
