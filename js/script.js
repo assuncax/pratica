@@ -50,13 +50,6 @@
     delay: 0.1,
   });
 
-  // Subtle parallax on the hero's dot-grid background
-  gsap.to('.hero', {
-    backgroundPosition: '0px 60px',
-    ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
-  });
-
   // ---------- Grids: cards/steps/metrics fade + pop in with a staggered icon "spring" ----------
   gsap.utils.toArray('.services-grid, .process-grid, .metrics-grid').forEach((grid) => {
     const items = gsap.utils.toArray(grid.children).filter((el) => el.classList.contains('reveal'));

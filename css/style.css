@@ -185,10 +185,6 @@ p { color: var(--text-secondary); }
   align-items: center;
   overflow: hidden;
   padding-top: 76px;
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
 }
 
 .hero-overlay {
@@ -529,16 +525,6 @@ p { color: var(--text-secondary); }
     linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.95)),
     url('../assets/img/codigo.jpg') center / cover no-repeat;
   color: #e2e8f0;
-}
-.cta-final::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
 }
 .cta-final-content { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
 .cta-final h2 { margin-bottom: 16px; color: #fff; }
